@@ -12,6 +12,7 @@ import { Header } from '../../components/Header';
 import { GuildIcon } from '../../components/GuildIcon';
 import { SmallInput } from '../../components/SmallInput';
 import { TextArea } from '../../components/TextArea';
+import { Button } from '../../components/Button';
 
 export function AppointmentCreate() {
     const [category, setCategory ] = useState('');
@@ -25,7 +26,7 @@ export function AppointmentCreate() {
             <Header
                 title="Detalhes"
              />
-           <Text style={[styles.label, { marginLeft: 24, marginTop: 36, marginBottom: 18 }]}>
+           <Text style={[styles.label, { marginLeft: 24, marginTop: 18, marginBottom: 18 }]}>
                 Categoria
            </Text>
 
@@ -94,7 +95,7 @@ export function AppointmentCreate() {
 
                 </View>
 
-                 <View style={[styles.field, {marginBottom: 12 }]}>
+                <View style={[styles.field, {marginBottom: 12 }]}>
                     <Text style={styles.label}>
                         Descrição
                     </Text>
@@ -103,18 +104,18 @@ export function AppointmentCreate() {
                     </Text>
                  </View>
 
-              <TextArea 
-                multiline
-                maxLength={100}
-                numberOfLines={5}
-                autoCorrect={false}
+                <TextArea 
+                    multiline
+                    maxLength={100}
+                    numberOfLines={5}
+                    autoCorrect={false}
                 />
 
+                <View style={styles.footer}>
+                    <Button title="Agendar" />
+                </View>
+
              </View>
-
-             
-
-
             
     </ScrollView>
         </KeyboardAvoidingView>

@@ -4,7 +4,7 @@ import { theme } from '../../global/styles/theme';
 export const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: 36,
+        height: 56,
         backgroundColor: theme.colors.primary,
         borderRadius: 8,
         alignItems: 'center',
@@ -16,17 +16,5 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.text500,
         fontSize: 15,
         textAlign: 'center'
-    },
-    iconWrapper: {
-        width: 36,
-        height: 36,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRightWidth: 1,
-        borderColor: theme.colors.line
-    },
-    icon: {
-        width: 24,
-        height: 18,
     }
 })
