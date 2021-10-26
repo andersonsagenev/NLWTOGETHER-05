@@ -14,9 +14,6 @@ export const styles = StyleSheet.create({
       justifyContent: 'space-between',
       marginBottom: 42
   },
-  content: {
-    marginTop: 22
-  },
   matches: {
     marginTop: 24,
     marginLeft: 24

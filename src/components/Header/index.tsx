@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import { styles } from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { theme } from '../../global/styles/theme';
@@ -37,12 +36,14 @@ export function Header( { title, action } : Props) {
             <Text style={styles.title}>
                 { title }
             </Text>
-               
                 {
-                    action &&
+                    action 
+                    ?
                     <View>
                           {action}  
                     </View>
+                    :
+                    <View style={{width: 24}}/>
                 }
                
         </LinearGradient>          

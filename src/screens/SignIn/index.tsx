@@ -1,19 +1,29 @@
-import React from 'react';
-import { View, Text, Image } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, Image, Alert, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
+import { theme } from '../../global/styles/theme';
 import { styles } from './styles';
 import { ButtonIcon } from '../../components/ButtonIcon';
-import { useNavigation } from '@react-navigation/native';
 import  IlustrationImg  from '../../assets/illustration.png';
 
 import { Background } from '../../components/Background';
 
+import { useAuth } from '../../hooks/auth';
+
+
 export function SignIn(){
 
-const navigation = useNavigation();
+const { loading, signIn } = useAuth();
+//const navigation = useNavigation();
+//console.log(user);
 
-function handleSignIn() {
-    navigation.navigate('Home');
+async function handleSignIn() {
+    try {
+       await signIn();
+    } catch (error) {
+      // Alert.alert(error); 
+    }
 }
 
     return(
@@ -32,12 +42,14 @@ function handleSignIn() {
             Crie sua liga para disputar  {`\n`}
             com seus amigos
             </Text>
-
-            <ButtonIcon
+            {
+                loading ? <ActivityIndicator color={theme.colors.primary} />
+                :
+                <ButtonIcon
                 title=" Entrar com Discord"
                 onPress={handleSignIn}
-            />
-
+                /> 
+            }
             </View>
         </View>
     </ Background>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles';
+import { Background } from '../../components/Background';
 import { ButtonIcon } from '../../components/ButtonIcon';
 import { ButtonAdd } from '../../components/ButtonAdd';
 import { Profile } from '../../components/Profile';
@@ -40,6 +41,54 @@ export function Home(){
             date: '22/06 as 20:40h',
             description: 'E hoje que vamos chegar '
         },
+        {
+            id: '3',
+            guild: {
+                id: '2',
+                name: 'Variados',
+                icon: null,
+                owner: false
+            },
+            category: '1',
+            date: '22/06 as 20:40h',
+            description: 'E hoje que vamos chegar '
+        },
+        {
+            id: '4',
+            guild: {
+                id: '2',
+                name: 'Variados',
+                icon: null,
+                owner: false
+            },
+            category: '1',
+            date: '22/06 as 20:40h',
+            description: 'E hoje que vamos chegar '
+        },
+        {
+            id: '5',
+            guild: {
+                id: '2',
+                name: 'Variados',
+                icon: null,
+                owner: false
+            },
+            category: '1',
+            date: '22/06 as 20:40h',
+            description: 'E hoje que vamos chegar '
+        },
+        {
+            id: '6',
+            guild: {
+                id: '2',
+                name: 'Variados',
+                icon: null,
+                owner: false
+            },
+            category: '1',
+            date: '22/06 as 20:40h',
+            description: 'E hoje que vamos chegar '
+        },
     ]
 
     function handleCategorySelect(categoryId: string){
@@ -50,41 +99,39 @@ export function Home(){
         navigation.navigate('AppointmentDetail');
     }
     function handleAppointmentCreate(){
-        console.log('chamou a funcao create...')
         navigation.navigate('AppointmentCreate');
     }
 
     return(
-        <View style={styles.container}>
+        <Background style={styles.container}>
             <View style={styles.header}>
                 <Profile />
                 <ButtonAdd 
                 onPress={handleAppointmentCreate}/>
             </View>
-            <View>
-                <CategorySelect 
-                    categorySelected={category}
-                    setCategory={handleCategorySelect}
-                />
-                <View style={styles.content}>
-                    <ListHeader
-                        title="Partidas agendadas"
-                        subtitle="Total 6"
-                    />
-                     <FlatList
-                        data={appointments}
-                        keyExtractor={item => item.id}
-                        renderItem={({ item }) => (
-                            <Appointment 
-                             data={item}
-                             onPress={handleAppointmentDetail} />
-                        )}
-                        ItemSeparatorComponent={ () => <ListDivider />}
-                        style={styles.matches}
-                        showsVerticalScrollIndicator={false}
-                    />
-                </View>
-            </View>
-        </View>
+           
+            <CategorySelect 
+                categorySelected={category}
+                setCategory={handleCategorySelect}
+            />
+            <ListHeader
+                title="Partidas agendadas"
+                subtitle="Total 6"
+            />
+            <FlatList
+                data={appointments}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                    <Appointment 
+                        data={item}
+                        onPress={handleAppointmentDetail} />
+                    )}
+                ItemSeparatorComponent={ () => <ListDivider />}
+                contentContainerStyle={ {paddingBottom: 69}}
+                style={styles.matches}
+                showsVerticalScrollIndicator={false}
+            />
+
+        </Background>
     );
 }

@@ -26,10 +26,18 @@ export function AppointmentCreate() {
     function handleOpenModal() {
         setOpenModal(true);
     }
+
+    function handleCloseModal() {
+        setOpenModal(false);
+    }
    
     function handleGuildSelect( guildSelect: GuildProps) {
         setGuild(guildSelect);
         setOpenModal(false);
+    }
+
+    function handleCategorySelect(categoryId: string){
+        categoryId === category ? setCategory('') : setCategory(categoryId)
     }
    
 
@@ -38,6 +46,7 @@ export function AppointmentCreate() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.container}
         > 
+        <Background>
         <ScrollView>
             <Header
                 title="Detalhes"
@@ -48,7 +57,7 @@ export function AppointmentCreate() {
 
            <CategorySelect
              hasCheckBox
-             setCategory={setCategory}
+             setCategory={handleCategorySelect}
              categorySelected={category} 
             />
 
@@ -85,7 +94,7 @@ export function AppointmentCreate() {
                 <View style={styles.field}>
 
                     <View>
-                        <Text style={styles.label}>
+                        <Text style={[styles.label, { marginBottom: 8 }]} >
                             Dia e mês
                         </Text>
 
@@ -100,7 +109,7 @@ export function AppointmentCreate() {
                     </View>
 
                      <View>
-                        <Text style={styles.label}>
+                        <Text style={ [styles.label, { marginBottom: 8 } ]}>
                             Hora e minuto
                         </Text>
 
@@ -116,7 +125,7 @@ export function AppointmentCreate() {
 
                 </View>
 
-                <View style={[styles.field, {marginBottom: 12 }]}>
+                <View style={[styles.field, {marginBottom: 8 }]}>
                     <Text style={styles.label}>
                         Descrição
                     </Text>
@@ -138,8 +147,9 @@ export function AppointmentCreate() {
              </View>
             
     </ScrollView>
+    </Background>
 
-    <ModalView visible={openModal}>
+    <ModalView visible={openModal} closeModal={handleCloseModal}>
         <Guilds handleGuildSelect={handleGuildSelect}/>
     </ModalView>
         
