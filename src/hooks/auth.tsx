@@ -17,8 +17,6 @@ const TOKEN_STORAGE = '@nlwheat:token'
 type User = {
     id: string;
     name: string;
-    // username: string;
-    // firsName: string;
     avatar_url: string;
     login: string;
     token: string;
@@ -46,7 +44,7 @@ type AuthorizationResponse = {
         code?: string;
         error?: string;
     },
-    type: string;
+    type?: string;
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -65,20 +63,23 @@ function AuthProvider({ children }: AuthProviderProps) {
 
             // const authUrl = `${api.defaults.baseURL}/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
              const authUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=${SCOPE}`;
-             const { authSessionResponse } = await AuthSession.startAsync({ authUrl }) as AuthorizationResponse;
+             const authSessionResponse  = await AuthSession.startAsync({ authUrl }) as AuthorizationResponse;
              // const response = await AuthSession.startAsync({ authUrl });
            
 
             console.log(authSessionResponse.params.code);
+            console.log(authSessionResponse);
 
-            if(authSessionResponse.type === 'success' && authSessionResponse.params.error !== 'access_denied') {
+            if(authSessionResponse.type === 'success' && authSessionResponse.params.error !== 'access_denied' ) {
                 const authResponse = await api_git.post('/authenticate', {code: authSessionResponse.params.code});
                 console.log(authResponse.data);
                 const { user, token } = authResponse.data as AuthResponse;
 
-                api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                console.log(token)
+
+                api_git.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 await AsyncStorage.setItem(USER_STORAGE, JSON.stringify(user));
-                await AsyncStorage.setItem(TOKEN_STORAGE, token);
+                await AsyncStorage.setItem(TOKEN_STORAGE, JSON.stringify(token));
 
                 setUser(user);
 
@@ -124,15 +125,16 @@ function AuthProvider({ children }: AuthProviderProps) {
             const userStorage = await AsyncStorage.getItem(USER_STORAGE);
             const tokenStorage = await AsyncStorage.getItem(TOKEN_STORAGE);
 
-            if(userStorage && tokenStorage) {
-                api.defaults.headers.common['Authorization'] = `Bearer ${tokenStorage}`;
-                setUser(JSON.parse(userStorage));
-               
+            console.log(tokenStorage)
 
+            if(userStorage && tokenStorage) {
+                api_git.defaults.headers.common['Authorization'] = `Bearer ${tokenStorage}`;
+                setUser(JSON.parse(userStorage));
             }
             setIsSigningIn(false);
         }
-    })
+        loadUserStorageData();
+    }, []);
 
     return (
         <AuthContext.Provider value={{

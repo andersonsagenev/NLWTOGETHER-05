@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Keyboard, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { api } from '../../services/api';
+import { api_git } from '../../services/api';
 import { COLORS } from '../../theme';
 import { BtnColor } from '../BtnColor';
 
@@ -17,7 +17,8 @@ export function SendMessageForm() {
 
         if (messageFormatted.length > 0) {
             setSendingMessage(true);
-            await api.post('/messages', { message: messageFormatted });
+            console.log('entrou no envio', messageFormatted)
+            await api_git.post('/messages', { message: messageFormatted });
 
             setMessage('');
             Keyboard.dismiss();
