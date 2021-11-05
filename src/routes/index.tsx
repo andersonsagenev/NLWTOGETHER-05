@@ -7,12 +7,10 @@ import { SignIn } from '../screens/SignIn';
 export function Routes() {
 
     const { user } = useAuth();
+   
     return(
             <NavigationContainer>
-              <AuthRoutes />
-              {/* <SignIn /> */}
-          
-           
+                <AuthRoutes />
             {/* {
                user && user.id ? <AuthRoutes /> : <SignIn />
             } */}

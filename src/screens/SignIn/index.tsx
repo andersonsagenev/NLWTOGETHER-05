@@ -14,15 +14,15 @@ import { useAuth } from '../../hooks/auth';
 
 export function SignIn(){
 
-const { loading, signIn } = useAuth();
-//const navigation = useNavigation();
-//console.log(user);
+const { user, signIn, isSigningIn } = useAuth();
+
+
 
 async function handleSignIn() {
     try {
        await signIn();
     } catch (error) {
-      // Alert.alert(error); 
+     //  Alert.alert(); 
     }
 }
 
@@ -43,10 +43,10 @@ async function handleSignIn() {
             com seus amigos
             </Text>
             {
-                loading ? <ActivityIndicator color={theme.colors.primary} />
+                isSigningIn ? <ActivityIndicator color={theme.colors.primary} />
                 :
                 <ButtonIcon
-                title=" Entrar com Discord"
+                title=" Entrar com GitHub"
                 onPress={handleSignIn}
                 /> 
             }

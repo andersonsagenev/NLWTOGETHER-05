@@ -21,13 +21,13 @@ export function AuthRoutes() {
                 }
             }}
             >
+         <Screen
+            name="Home"
+            component={Home}
+        />     
         <Screen
             name="Inicio"
             component={Inicio}
-        />
-        <Screen
-            name="Home"
-            component={Home}
         />
         <Screen
             name="AppointmentDetail"

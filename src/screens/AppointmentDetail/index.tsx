@@ -4,18 +4,29 @@ import { ImageBackground, View, Text, FlatList } from 'react-native';
 import { theme } from '../../global/styles/theme';
 import { styles } from './styles';
 import { BorderlessButton } from 'react-native-gesture-handler';
+import { Header } from '../../components/Header';
 import { Fontisto } from '@expo/vector-icons';
 
 import BannerImg from '../../assets/banner.png';
 import { Background } from '../../components/Background';
 import { ListHeader } from '../../components/ListHeader';
-import { Header } from '../../components/Header';
 import { Members } from '../../components/Members';
 import { ListDivider } from '../../components/ListDivider';
 import { ButtonIcon } from '../../components/ButtonIcon';
+import { useRoute } from '@react-navigation/native';
+import { AppointmentProps } from '../../components/Appointment';
+
+type Params = {
+    guildSelected: AppointmentProps
+}
 
 
 export function AppointmentDetail() {
+    const route = useRoute();
+    const { guildSelected } = route.params as Params;
+
+    
+
     const members = [
         {
             id: '1',
@@ -51,10 +62,10 @@ export function AppointmentDetail() {
              >
                 <View style={styles.bannerContent}>
                     <Text style={styles.title}>
-                        Lendários
+                       { guildSelected.guild.name}
                     </Text>
                     <Text style={styles.subtitle}>
-                        É hoje que vamos chegar ao challenger sem perder uma partida da md10
+                        { guildSelected.description}
                     </Text>
                 </View>
              </ImageBackground>

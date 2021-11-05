@@ -4,14 +4,13 @@ import { api, api_git } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as AuthSession from 'expo-auth-session';
-import {
-    REDIRECT_URI,
-    SCOPE,
-    CLIENT_ID,
-} from '../config'
+import { COLLECTION_APPOINTMENT, USER_STORAGE, TOKEN_STORAGE } from '../config/database';
 
-const USER_STORAGE = '@nlwheat:user'
-const TOKEN_STORAGE = '@nlwheat:token'
+const { SCOPE } = process.env;
+const {CLIENT_ID } = process.env;
+const { REDIRECT_URI } = process.env;
+
+
  
 
 type User = {
@@ -36,8 +35,6 @@ type AuthProviderProps = {
 type AuthResponse = {
         token?: string;
         user: User;
-        
-    
 }
 type AuthorizationResponse = {
     params: {
@@ -53,9 +50,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<User | null>(null);
     const [isSigningIn, setIsSigningIn] = useState(false);
 
-   
-
-
     async function signIn() {
         console.log('entrou no signIn');
         try {
@@ -63,26 +57,20 @@ function AuthProvider({ children }: AuthProviderProps) {
 
             // const authUrl = `${api.defaults.baseURL}/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
              const authUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=${SCOPE}`;
+             
              const authSessionResponse  = await AuthSession.startAsync({ authUrl }) as AuthorizationResponse;
              // const response = await AuthSession.startAsync({ authUrl });
            
 
-            console.log(authSessionResponse.params.code);
-            console.log(authSessionResponse);
-
             if(authSessionResponse.type === 'success' && authSessionResponse.params.error !== 'access_denied' ) {
                 const authResponse = await api_git.post('/authenticate', {code: authSessionResponse.params.code});
-                console.log(authResponse.data);
                 const { user, token } = authResponse.data as AuthResponse;
-
-                console.log(token)
 
                 api_git.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 await AsyncStorage.setItem(USER_STORAGE, JSON.stringify(user));
                 await AsyncStorage.setItem(TOKEN_STORAGE, JSON.stringify(token));
 
                 setUser(user);
-
 
             }
 
@@ -117,16 +105,13 @@ function AuthProvider({ children }: AuthProviderProps) {
         setUser(null);
         await AsyncStorage.removeItem(USER_STORAGE);
         await AsyncStorage.removeItem(TOKEN_STORAGE);
-        
     }
 
     useEffect(() =>{
         async function loadUserStorageData() {
             const userStorage = await AsyncStorage.getItem(USER_STORAGE);
             const tokenStorage = await AsyncStorage.getItem(TOKEN_STORAGE);
-
-            console.log(tokenStorage)
-
+           
             if(userStorage && tokenStorage) {
                 api_git.defaults.headers.common['Authorization'] = `Bearer ${tokenStorage}`;
                 setUser(JSON.parse(userStorage));
@@ -143,7 +128,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             signIn,
             signOut
         }}>
-            {children}
+            { children }
         </AuthContext.Provider>
     )
 }
